@@ -1,0 +1,24 @@
+---
+- name: our first play
+  hosts: planetexpress
+  connection: ansible.builtin.ssh
+  gather_facts: yes
+  become: yes
+
+  tasks:
+
+    - name: install epel-release
+      ansible.builtin.yum:
+        name: epel-release
+        state: present
+      when: ansible_distribution == "Rocky"
+
+    - name: install steam locomotive on CentOS machine
+      ansible.builtin.yum:
+        update_cache: True
+        name: 
+          - fail2ban
+          - moon-buggy  
+        state: latest
+      become: yes
+      when: ansible_distribution == "Rocky"
