@@ -1,0 +1,17 @@
+---
+- name: Exploring the template module and jinja expressions
+  hosts: planetexpress
+  connection: ansible.builtin.ssh
+  gather_facts: true
+
+  vars:
+    - mission_vars:
+      - {"mission": "primary", "planet": "luna park"}
+      - {"mission": "secondary", "planet": "cineplex 14"}
+
+  tasks:
+
+    - name: runnin a loop with jinja template
+      ansible.builtin.template:
+        src: ~/mycode/templates/mission.cfg.j2
+        dest: ~/mission_report.txt

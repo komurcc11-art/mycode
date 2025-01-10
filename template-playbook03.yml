@@ -1,0 +1,15 @@
+---
+- name: Exploring the template module and jinja expressions
+  hosts: planetexpress
+  connection: ansible.builtin.ssh
+  gather_facts: true
+
+  vars_files:
+    - ~/mycode/vars/crew.yml
+
+  tasks:
+
+    - name: runnin a loop with jinja template
+      ansible.builtin.template:
+        src: ~/mycode/templates/crew_report.txt.j2
+        dest: ~/crew_report.txt

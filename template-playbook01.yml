@@ -1,0 +1,18 @@
+---
+- name: Exploring the template module and jinja expressions
+  hosts: planetexpress
+  connection: ansible.builtin.ssh
+  gather_facts: false
+
+  vars:
+    ship_name: Bessie
+    ship_type: Intergalactic
+    engines: Dark Matter
+    dark_matter_balls: 63
+    backup_engines: Chemical
+
+  tasks:
+    - name: populate jinja template
+      ansible.builtin.template:
+       src: ~/mycode/templates/ship.cfg.j2
+       dest: ~/ship.cfg

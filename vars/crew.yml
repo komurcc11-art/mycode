@@ -1,0 +1,13 @@
+---
+crew:
+
+  Zapp:
+    description: ship captain, lots of medals
+    skills: deveoted, quiet
+  
+  Kif:
+        description: lieutenant
+        skills: devoted, quiet
+  Amy:
+        description: PhD
+        skills: engineering, physics, communication

@@ -1,0 +1,8 @@
+{% for m in mission_vars %}
+{% if mission_vars[m].mission == "primary"}
+    Mission: {{ mission_vars[m].mission }}
+    Planet: {{ mission_vars[m].planet }}
+{% if mission_vars[m].mission == "secondary"}
+    Mission: {{ mission_vars[m].mission }}
+    Planet: {{ mission_vars[m].planet }}
+{% endif %}

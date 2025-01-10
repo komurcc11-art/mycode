@@ -1,0 +1,20 @@
+---
+- name: Exploring the template module and jinja expressions
+  hosts: planetexpress
+  connection: ansible.builtin.ssh
+  gather_facts: true
+
+  vars_files:
+    - ~/mycode/vars/planetexpress.yml
+
+  tasks:
+
+    - name: configure space ship registration
+      ansible.builtin.template:
+       src: ~/mycode/templates/ship.cfg.j2
+       dest: ~/ship.cfg
+
+    - name: configure mission orders
+      ansible.builtin.template:
+        src: ~/mycode/templates/mission-orders.txt.j2
+        dest: ~/misison-orders.txt
