@@ -1,0 +1,65 @@
+---
+- name: Setup an apache2 server
+  hosts: fry
+  connection: ansible.builtin.ssh
+  gather_facts: yes
+  become: yes
+
+  tasks:
+
+    - name: Install apache2 on fry
+      ansible.builtin.apt:
+        name:
+          - apache2
+          - python3-pip
+        state: present
+
+
+    - name: Configure the apache file
+      ansible.builtin.blockinfile:
+        insertafter: EOF
+        path: /etc/apache2/apache2.conf
+        block: |
+              Alias /admin /var/www/html/admin
+        
+              <Directory /var/www/html/admin>
+                <Files secure.txt>
+                  AuthType basic
+                  AuthName "Secured Files area"
+                  AuthUserFile /etc/apache2/.htpasswd
+                  Require user sammy
+                </Files>
+                order allow,deny
+                deny from all
+                satisfy any
+              </Directory>
+
+    - name: create directory
+      ansible.builtin.file:
+        path: /var/www/html/admin
+        state: directory
+
+
+    - name: create the secret file
+      ansible.builtin.copy:
+        content: "This is a very secret file! The word is vaso"
+        dest: /var/www/html/admin/secure.txt
+        mode: u=rw,g=r,o=r
+
+
+    - name: get passlib from python
+      ansible.builtin.pip:
+        name: passlib
+        state: present
+
+    - name: create a user and a passoword for the file
+      htpasswd:
+        name: sammy
+        password: larry
+        path: /etc/apache2/.htpasswd
+        owner: root
+        group: root
+
+    - name: restart service
+      shell: "/etc/init.d/apache2 restart"
+
