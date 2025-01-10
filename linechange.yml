@@ -1,0 +1,20 @@
+---
+- name: exploring line in file
+  hosts: planetexpress
+  connection: ansible.builtin.ssh
+  gather_facts: yes
+
+  vars:
+    - fileloc: "/var/log/bootstrap.log"
+  
+  tasks:
+
+    - name: update a string on a file
+      ansible.builtin.lineinfile:
+        path: "{{ fileloc }}"
+        regexp: "^Setting up lib.*"
+        line: "Good Afternoon! How are you?"
+        backup: yes
+      become: true
+      when: ansible_os_family == "Debian"
+
