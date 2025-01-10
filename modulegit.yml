@@ -1,0 +1,13 @@
+---
+- name: learning how to use git
+  hosts: planetexpress
+  connection: ansible.builtin.ssh
+  gather_facts: false
+
+  tasks:
+
+    - name: download a repo
+      ansible.builtin.git:
+        repo: https://github.com/ansible/ansible-examples.git 
+        dest: ~/ansible-examples/
+        archive: /tmp/ansible-examples.zip
