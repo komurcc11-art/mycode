@@ -1,0 +1,23 @@
+---
+- name: loop with 3 second pause
+  hosts: localhost
+  connection: ansible.builtin.local
+  gather_facts: false
+
+  vars:
+    ethList:
+      - "eth0"
+      - "eth1"
+      - "eth2"
+      - "eth3"
+
+  tasks:
+    - name: loop over a dictionary
+      ansible.builtin.debug:
+        msg: "The {{ item.name }} belongs to the category {{ item.groups }}"
+      loop:
+        - { name: 'orange', groups: 'fruit'}
+        - { name: 'lemon', groups: 'fruit'}
+        - { name: 'cookie', groups: 'snack'}
+      loop_control:
+        pause: 3

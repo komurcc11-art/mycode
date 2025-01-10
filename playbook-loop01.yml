@@ -1,0 +1,27 @@
+---
+- name: Intro to looping
+  hosts: localhost
+  connection: ansible.builtin.local
+  gather_facts: false
+
+  vars:
+    ethList:
+      - "eth0"
+      - "eth1"
+      - "eth2"
+      - "eth3"
+
+  tasks:
+    - name: demo a tiny loop
+      ansible.builtin.debug:
+        msg: "Print this to screen: {{ item }}"
+      loop: "{{ ethList }}"
+
+    - name: another demo
+      ansible.builtin.debug:
+        msg: " This are IP addresses: {{ item }}"
+      loop: "{{ OtherList }}"
+      vars:
+        OtherList:
+          - "192.168.70.1"
+          - "10.10.1.1"  

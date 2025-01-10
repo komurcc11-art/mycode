@@ -1,0 +1,23 @@
+---
+- name: loop with 3 second pause
+  hosts: localhost
+  connection: ansible.builtin.local
+  gather_facts: false
+
+  vars:
+    ethList:
+      - "eth0"
+      - "eth1"
+      - "eth2"
+      - "eth3"
+
+  tasks:
+    - name: demo a tiny loop
+      ansible.builtin.debug:
+        var: item
+      loop:
+         - server1
+         - server2
+         - server3
+      loop_control:
+        pause: 3
