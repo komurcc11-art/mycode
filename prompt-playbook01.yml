@@ -1,0 +1,19 @@
+---
+- name: how to prompt for variables
+  hosts: localhost
+  gather_facts: no
+
+  vars_prompt:
+
+    - name: "yourpassword"
+      prompt: "What is your pasword?"
+      private: yes
+        #encrypt: "sha512_crypt"
+      confirm: yes
+      salt_size: 7
+      default: "qwerty"
+
+  tasks:
+    - name: print out the prompt
+      ansible.builtin.debug:
+        var: yourpassword

@@ -1,0 +1,22 @@
+---
+- name: how to prompt for variables
+  hosts: professors
+  gather_facts: true
+
+  vars_prompt:
+      - name: "ansible_ssh_password"
+        prompt: "what is your ssh password?"
+        private: false
+
+
+
+  tasks:
+    - name: print what is the ssh pasword
+      ansible.builtin.debug:
+        var: ansible_facts.ssh
+
+    - name: install sl
+      ansible.builtin.yum:
+        name: figlet
+        state: present
+      become: yes
