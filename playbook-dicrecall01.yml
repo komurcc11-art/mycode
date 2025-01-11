@@ -1,0 +1,38 @@
+---
+- name: intro to dictionaries
+  connection: ansible.builtin.local
+  gather_facts: false
+  hosts: localhost
+
+  vars:
+
+    configA: exampleA.cfg
+    configB: exampleB.cfg
+
+    licensetypes:
+      opentypes:
+        - apache2.0
+        - gnu public license (GPL)
+        - mit license
+        - mozilla public license
+      paytypes:
+        - windows
+        - redhat
+        - apple
+
+  tasks:
+    - name: recall key value pair mapping
+      ansible.builtin.debug:
+        msg: "This is {{ configA }}"
+
+    - name: recall key value mapping where value is a list
+      ansible.builtin.debug:
+        msg: "This is a list {{ licensetypes.opentypes }}"
+
+
+    - name: display the mit license
+      ansible.builtin.debug: 
+        msg: "This is an element in a list that is the value of a key in a dictionary: {{ licensetypes.opentypes[2] }}"
+
+
+

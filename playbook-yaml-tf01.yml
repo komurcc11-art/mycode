@@ -1,0 +1,19 @@
+---
+- name: intro to T and F conditionals
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    bool_var: True
+    msg_var: "Time to panic!"
+
+  tasks:
+    - name: run when bool_var is true
+      ansible.builtin.debug:
+        msg: "{{ msg_var }}"
+      when: bool_var|bool
+
+    - name: runs when bool_var is false
+      ansible.builtin.debug:
+        msg: "{{ msg_var }}"
+      when: not bool_var|bool

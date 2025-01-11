@@ -1,0 +1,27 @@
+---
+- name: using jinja within our playbook
+  hosts: planetexpress
+  connection: ansible.builtin.ssh
+  gather_facts: yes
+
+  tasks:
+    - name: display all ansible facts
+      ansible.builtin.debug:
+        var: ansible_facts
+        verbosity: 2 #will only run if you pass -vv on the command line while runin
+
+    - name: What does ansible_facts.os_family contain?
+      ansible.builtin.debug:
+        var: ansible_facts.os_family
+        verbosity: 1 #will only run if you pass -v on the command line while runin
+
+
+    - name: What does ansible_facts.lsb contain?
+      ansible.builtin.debug:
+        var: ansible_facts.lsb
+        verbosity: 1 #will only run if you pass -v on the command line while runin
+
+    - name: Some tasks that run our hosts that match our conditionals
+      ansible.builtin.debug:
+        msg: 
+      when: ansible_facts.os_family == "Debian" and ansible_facts.lsb.major_release|int >=18
