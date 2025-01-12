@@ -1,0 +1,40 @@
+---
+- name: advanced playbook architecture
+  hosts: ghosthouse
+  gather_facts: yes
+
+  pre_tasks: # <-- run risrt followed by handler calls
+
+  roles:
+    - bootstrap # <-- this role runs next
+    - bootstrap # <-- won't run! to 'fix' make an entry in 'roles/bootstrap/meta/main.yml'
+    - webserver
+
+
+  tasks:
+    - name: print to screen
+      ansible.builtin.debug:
+        msg: "example of task within the task section"
+
+
+    - import_role: # <-- STATIC(preprocessing)
+            name: nginx 
+
+    - include_role: # <-- DYNAMIC
+            name: webserver-db-{{ webserverhostname | lower }}
+
+  post_tasks: # <-- runs after roles followed by handlers
+
+  handlers: # <-- custom handlers
+
+
+
+---
+- name: a second play
+  hosts: all
+  gather_facts: yes
+
+  tasks:
+    - name: print to screen 
+      ansible.builtin.debug:
+        msg: this is another play
