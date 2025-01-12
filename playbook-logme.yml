@@ -1,0 +1,17 @@
+---
+- name: logging  - everything to standard gets logged
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: doesn't get logged
+      ansible.builtin.debug:
+        msg: "will not be logged"
+
+      no_log: true
+
+    - name: will get logged
+      ansible.builtin.debug:
+        msg: "will be logged"
+
+

@@ -1,0 +1,19 @@
+---
+- name: turn off logging at play level
+  hosts: localhost
+  connection: ansible.builtin.local
+  gather_facts: no
+  no_log: true
+  
+
+  tasks:
+
+    - name: perform and api lookup (may display sensitive data)
+      ansible.builtin.uri:
+        url: "https://api.le-systeme-solaire.net/rest/bodies/neso"
+        method: get
+      register: results
+
+    - name: debug task left by a developer for debugging
+      ansible.builtin.debug:
+        var: results
