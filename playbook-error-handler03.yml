@@ -1,0 +1,27 @@
+---
+- name: learning about blocks
+  hosts: planetexpress
+  connection: ansible.builtin.ssh
+  gather_facts: false
+
+  tasks:
+
+  - name: BLOCK this is what we want to do
+    block:
+
+      - name: task 1
+        ansible.builtin.shell: "echo 'task 1' > example.txt"
+
+      - name: task 2
+        ansible.builtin.shell: "echo 'task 2' >> example.txt"
+
+      - name: task 3
+        ansible.builtin.shell: "/bin/false"
+
+    rescue:
+      - name: task that resues
+        ansible.builtin.shell: "echo 'Superman to the rescue' >> example.txt"
+
+    always:
+      - name: always
+        ansible.builtin.shell: "echo this aways runs >> example.txt" 
