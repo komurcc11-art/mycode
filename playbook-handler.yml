@@ -1,0 +1,36 @@
+---
+- name: apache server install
+  hosts: web
+  gather_facts: false
+  become: yes
+
+  tasks:
+
+    - name: latest apache version installed
+      ansible.builtin.package:
+        name: apache2
+        state: latest
+
+    - name: Apache enabled and running
+      ansible.builtin.service:
+        name: apache2
+        enabled: yes
+        state: started
+
+    - name: copy index.html
+      ansible.builtin.copy:
+        src: ~/mycode/files/index.html
+        dest: /var/www/html/
+
+    - name: download a copy of apache2
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/rzfeeser/alta3files/master/apache2.conf
+        dest: /etc/apache2
+      notify:
+        - restart_apache
+
+  handlers: 
+     - name: restart_apache #will only run if task above ran (got changed)
+       ansible.builtin.service:
+         name: apache2
+         state: restarted
