@@ -1,0 +1,15 @@
+---
+- name: ansible and restful interfaces
+  hosts: localhost
+  connection: ansible.builtin.local
+  gather_facts: false
+
+  vars:
+
+    astros: "{{ lookup('url', 'http://api.open-notify.org/astros.json') }}"
+
+  tasks:
+    - name: print astros
+      ansible.builtin.debug:
+        msg: "{{ item.name }}"
+      loop: "{{ astros.people }}"

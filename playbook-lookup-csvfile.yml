@@ -1,0 +1,19 @@
+---
+- name: using csv lookupfile plugin to make selective choices
+  hosts: localhost
+  connection: ansible.builtin.local
+  gather_facts: no
+
+  vars:
+    ip_poweredge_svr02: "{{ lookup('csvfile', ' pe06 file=~/mycode/files/ip_data.csv delimiter=,') }}"
+
+
+  tasks:
+
+    - name: show the csv file
+      ansible.builtin.debug:
+        var: ip_poweredge_svr02
+
+    - name: show the status
+      ansible.builtin.debug:
+        var: lookup('csvfile', 'pe06 file=~/mycode/files/ip_data.csv delimiter=, col=3')
