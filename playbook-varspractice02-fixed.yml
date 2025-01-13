@@ -1,0 +1,13 @@
+---
+- name: using a complex vars_file
+  hosts: localhost
+  gather_facts: false
+
+  vars_files:
+    - ~/mycode/vars/titanvars.yml
+
+  tasks:
+    - name: debug with dict
+      ansible.builtin.debug:
+        var: item
+      loop: "{{ prefix_list|dict2items }}"

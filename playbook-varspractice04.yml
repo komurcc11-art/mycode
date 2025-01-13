@@ -1,0 +1,42 @@
+---
+- name: playbook that manipulates dara from uri
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    uritouse: "https://api.nhle.com/stats/rest/en/team"
+
+  tasks:
+
+    - name: use uri module to send http get
+      ansible.builtin.uri:
+        method: GET
+        url: "{{ uritouse }}"
+      register: results
+      tags:
+        - data
+        - keys
+        - upper
+        - split
+
+    - name: use python to show all dictionary keys with python
+      ansible.builtin.debug:
+        var: results.keys()
+
+    - name: display only full name and other values
+      ansible.builtin.debug:
+        msg: " the name: {{ item.fullName }}"
+      loop: "{{ results.json.data }}"
+
+    - name: display only full name
+      ansible.builtin.debug:
+          msg: " the name: {{ item.fullName }}"
+      loop: "{{ results.json.data }}"
+      loop_control:
+          label: "{{ item.id }}"
+
+    - name: loop accross teams and display the team location made upper
+      #ansible.builtin.debug:
+      # msg: "{{ item.fullName.split(' ')[0] }}"
+      ansible.builtin.shell: " echo {{ item.fullName.split(' ')[0] }} >> ~/teamlocations.txt"
+      loop: "{{ results.json.data }}"

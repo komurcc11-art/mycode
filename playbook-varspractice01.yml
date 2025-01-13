@@ -1,0 +1,44 @@
+---
+- name: recall vars
+  hosts: localhost
+
+  vars:
+
+    telecom:
+      - ericsson
+      - alu
+      - avaya
+      - cisco
+    
+    heroes:
+      marvel:
+        - spiderman
+        - ironman
+        - drstrange
+      dc:
+        - superman
+        - batman
+        - aquaman
+
+  tasks:
+
+    - name: print spiderman
+      ansible.builtin.debug:
+        msg: "{{ heroes.marvel[0] }}"  
+
+    - name: all dc heroes
+      ansible.builtin.debug:
+        var: heroes.dc
+
+    - name: all dc heroes with a loop
+      ansible.builtin.debug:
+        var: item
+      loop: "{{ heroes.dc }}" 
+
+    - name: print cisco
+      ansible.builtin.debug:
+        var: telecom[0]
+
+    - name: all dc and marvel heroes
+      ansible.builtin.debug:
+        var: heroes.marvel + heroes.dc
