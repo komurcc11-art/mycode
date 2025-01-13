@@ -1,0 +1,26 @@
+---
+- name: more register examples
+  hosts: planetexpress
+  gather_facts: true
+  connection: ansible.builtin.ssh
+
+  tasks:
+    - name: download something
+      ansible.builtin.get_url:
+        url: https://www.random.org/integers/?num=1&min=0&max=1&col=1&base=10&format=plain&rnd=new
+        dest: ~/random.txt
+        force: yes
+
+    - name: read the rand.txt and save it to a variable
+      ansible.builtin.command: cat  ~/random.txt
+      register: randvarz 
+
+    - name: display a win
+      ansible.builtin.debug:
+        msg: "Congrats {{ ansible_hostname }} won!"
+      when: randvarz.stdout == "1"
+
+    - name: display a failure
+      ansible.builtin.debug:
+        msg: "Congrats {{ ansible_hostname }} won!"
+      when: randvarz.stdout == "0"

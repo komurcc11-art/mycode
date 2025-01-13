@@ -1,0 +1,36 @@
+---
+- name: deploy mission critical app
+  hosts: planetexpress
+  connection: ansible.builtin.ssh
+  gather_facts: true
+
+  tasks:
+
+    - name: install app in debian machines
+      ansible.builtin.apt:
+        name: cowsay
+        state: present
+      become: true
+      when: ansible_os_family == "Debian"
+
+    - name: install app in redhat machines
+      ansible.builtin.yum:
+        name: cowsay
+        state: present
+      become: true
+      when: ansible_os_family == "RedHat"
+
+    - name: list the contents of the home folder
+      ansible.builtin.command: ls /home
+      register: homevarz
+
+    - name: tell me what is inside homevarz
+      ansible.builtin.debug:
+        var: homevarz
+
+    - name: create a textfile inside of each users directory
+      ansible.builtin.lineinfile: 
+        create: yes
+        path: /home/{{ item }}/instructions.txt
+        line: " you are ready to play"
+      loop: "{{ homevarz.stdout_lines }}"
