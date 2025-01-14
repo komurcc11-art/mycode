@@ -1,0 +1,27 @@
+---
+- name: network playbook to gather facts
+  hosts: sw-1, sw-2
+  gather_facts: true
+
+  # these vars can be mapped other places
+  # but need to be mapped for ansible to
+  # connect to Arista switches
+
+   
+  vars:
+    ansible_connection: network_cli
+    ansible_network_os: eos
+    ansible_become: yes
+    ansible_become_method: enable
+    ansible_user: admin
+    ansible_ssh_pass: alta3
+
+  tasks:
+    #- name: gather eos facts
+    #  ansible.builtin.eos_facts:
+    #    gather_subsets: all 
+    #  register: results
+
+    - name: show registered facts
+      ansible.builtin.debug:
+        var: ansible_facts 
