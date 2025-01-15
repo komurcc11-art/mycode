@@ -1,0 +1,19 @@
+---
+- name: using the arista_backup role we created
+  hosts: all
+  connection: ansible.builtin.network_cli
+  gather_facts: yes
+
+  vars:
+    ansible_network_os: eos
+
+  vars_files:
+    - ~/switch.creds
+
+  roles:
+    - arista_backup
+
+  tasks:
+    - name: print to the screen
+      ansible.builtin.debug:
+        msg: "the roles section will run before any task"

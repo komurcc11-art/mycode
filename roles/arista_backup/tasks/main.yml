@@ -1,0 +1,33 @@
+---
+# tasks file for arista_backup
+
+
+- name: Arista EOS fact collection
+  eos_facts:
+    gather_subset: all  # IMPORTANT! Look at the Return values at the bottom of the eos_facts
+  when: ansible_network_os == "eos"
+
+- name: get the current date
+  ansible.builtin.command: date "+%Y-%m-%d"
+  register: result
+  vars:
+    ansible_connection: local
+
+- name: set a variable to make date easier
+  set_fact:
+    date_now: "{{ result.stdout }}"
+
+- name: create dir to save current switch configuration
+  ansible.builtin.file:
+    path: "~/mycode/backup/{{ date_now }}"
+    state: directory
+
+- name: save out backed up configuration
+  ansible.builtin.copy:
+    content: "{{ ansible_net_config }}"
+    dest: " ~/mycode/backup/{{ date_now }}/{{ inventory_hostname }}-config.backup"
+  
+- name: archival process
+  ansible.builtin.archive:
+    path: "/mycode/backup/{{ date_now }}/{{ inventory_hostname }}-config.backup"
+    remove: false     # removes the original file  
