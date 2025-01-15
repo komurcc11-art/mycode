@@ -1,0 +1,13 @@
+---
+- name: use role distributed with collection
+  hosts: localhost
+  connection: ssh
+  gather_facts: no
+
+  collections:
+    - adalovelace.myfirstcollection
+
+  tasks:
+    - name: example of how to use a collection
+      ansible.builtin.debug:
+        msg: " any new modules roles or other distributables"
