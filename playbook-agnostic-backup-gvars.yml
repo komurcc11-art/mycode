@@ -1,0 +1,30 @@
+---
+- name: backup all switch configs
+  hosts: eosswitches:iosswitches
+  gather_facts: false
+  become: yes
+  connection: network_cli
+
+
+  tasks:
+
+    - name: pull backup from switches
+      ansible.builtin.cli_command:
+        command: "{{ backup}}"
+      register: backup
+
+    - name: ensure backup directory is created
+      ansible.builtin.file:
+        path: ~/mycode/backup
+        state: directory
+
+
+    - name: write out the backup to a file
+      ansible.builtin.copy:
+        content: "{{ backup.stdout }}"
+        dest: "~/mycode/backup/{{ inventory_hostname}}.backup"
+
+
+    - name: show inventory_hostname
+      ansible.builtin.debug:
+        var: inventory_hostname

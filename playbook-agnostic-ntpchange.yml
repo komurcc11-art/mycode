@@ -1,0 +1,21 @@
+---
+- name: change swithc configuration
+  hosts: eosswitches:iosswitches
+  gather_facts: false
+  become: yes
+  connection: network_cli
+
+
+  tasks:
+
+    - name: load new ntp configuration
+      ansible.builtin.cli_config:
+        config: "{{ ntp_commands }}"
+      notify:
+        - save and commit
+
+
+  handlers:
+    - name: save and commit
+      ansible.builtin.cli_command:
+        command: "{{ save }}"

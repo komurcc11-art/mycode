@@ -1,0 +1,17 @@
+---
+- name: network commands by vendor
+  hosts: allvendors
+  gather_facts: false
+
+  vars_files:
+    - ~/switch.creds
+
+  tasks:
+    - name: run an agnostic command
+      ansible.builtin.cli_command:
+        command: "{{ commandtoshowinterfaces }}"
+      register: results
+
+    - name: show resutls
+      ansible.builtin.debug:
+        var: results
