@@ -1,0 +1,14 @@
+---
+- name: playbook that runs a python script
+  hosts: localhost
+
+  tasks:
+    - name: copy script to target hosts and execute it
+      ansible.builtin.script: ~/mycode/scripts/nasaLookup.py
+      args:
+        executable: /usr/bin/python3
+      register: results
+
+    - name: print out the results
+      ansible.builtin.debug:
+        var: results
