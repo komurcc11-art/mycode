@@ -1,0 +1,13 @@
+---
+- name: encrypt a string
+  connection: local
+  hosts: localhost
+  gather_facts: no
+
+  vars_files:
+    - vars/vault_var.yml
+
+  tasks:
+    - name: print and encrypted string
+      ansible.builtin.debug:
+        msg: "{{ mypass }}"
